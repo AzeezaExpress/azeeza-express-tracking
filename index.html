@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Azeeza Express - Parcel Tracking</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+}
+
+.logo {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #111;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.result {
+    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    background: #f1f3f5;
+    border-radius: 12px;
+}
+
+.label {
+    color: #777;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-top: 12px;
+}
+
+.value {
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #777;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+AZEEZA EXPRESS
+</div>
+
+<div class="subtitle">
+Parcel Tracking
+</div>
+
+<p>Enter your tracking number:</p>
+
+<input
+    type="text"
+    id="tracking"
+    placeholder="AZE-2026-000001"
+>
+
+<button onclick="trackParcel()">
+TRACK MY PARCEL
+</button>
+
+<div id="result" class="result"></div>
+
+<div class="footer">
+Bring the World Closer 🌍
+<br>
+Azeeza Express
+</div>
+
+</div>
+
+<script>
+
+const parcels = {
+
+"AZE-2026-000001": {
+destination: "Dakar, Senegal",
+status: "Parcel Registered",
+updated: "2 October 2026"
+},
+
+"AZE-2026-000002": {
+destination: "Dakar, Senegal",
+status: "Parcel Registered",
+updated: "2 October 2026"
+}
+
+};
+
+function trackParcel() {
+
+const code =
+document.getElementById("tracking")
+.value
+.trim()
+.toUpperCase();
+
+const result =
+document.getElementById("result");
+
+result.style.display = "block";
+
+if (!parcels[code]) {
+
+result.innerHTML = `
+<div class="value">
+Tracking number not found
+</div>
+
+<p>
+Please check your tracking number and try again.
+</p>
+`;
+
+return;
+}
+
+const parcel = parcels[code];
+
+result.innerHTML = `
+
+<div class="label">
+Tracking Number
+</div>
+
+<div class="value">
+${code}
+</div>
+
+<div class="label">
+Destination
+</div>
+
+<div class="value">
+${parcel.destination}
+</div>
+
+<div class="label">
+Status
+</div>
+
+<div class="value">
+${parcel.status}
+</div>
+
+<div class="label">
+Last Update
+</div>
+
+<div class="value">
+${parcel.updated}
+</div>
+
+`;
+
+}
+
+/* Allow QR codes to open the tracking number automatically */
+
+const parameters =
+new URLSearchParams(window.location.search);
+
+const trackingFromQR =
+parameters.get("tracking");
+
+if (trackingFromQR) {
+
+document.getElementById("tracking").value =
+trackingFromQR;
+
+trackParcel();
+
+}
+
+</script>
+
+</body>
+</html>
